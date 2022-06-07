@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: GUEST_SERVICE-TEST-API
+  datasource:
+    url: jdbc:h2:mem:testdb
+    platform: h2
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          import_files: data-h2.sql
+  config:
+    import: configserver:http://localhost:8001
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+myhotel-microservices:
+  hotel-inventory-service:
+    endpoints:
+      base-uri: /api/v1/hotelinventory
+      get-hotel-inventory: /hotel/{hotel_id}
+      get-hotel-room-inventory: /hotel/{hotel_id}/room/{room_number}
+      put-hotel-inventory-metadata: /hotel/{hotel_id}
+      put-hotel-room-inventory: /hotel/{hotel_id}/room/{room_number}
+      post-hotel-room-inventory: /hotel/{hotel_id}/room
+      delete-hotel-inventory: /hotel/{hotel_id}
+      delete-hotel-room-inventory: /hotel/{hotel_id}/room/{room_number}
+  guest-service:
+    endpoints:
+      base-uri: /api/v1/guests
+      get-guest-profile: /guest/{guest_id}
+      get-guest-stay: /guest/{guest_id}/stay/{stay_id}
+      get-guest-creditcard: /guest/{guest_id}/card/{card_id}
+      post-guest-stay: /guest/{guest_id}/stay
+      post-guest-creditcard: /guest/{guest_id}/creditcard
+      delete-guest-stay: /guest/{guest_id}/stay/{stay_id}
+      delete-guest-creditcard: /guest/{guest_id}/card/{card_id}
+      put-guest-stay: /guest/{guest_id}/stay/{stay_id}
+      put-guest-creditcard: /guest/{guest_id}/card/{card_id}
