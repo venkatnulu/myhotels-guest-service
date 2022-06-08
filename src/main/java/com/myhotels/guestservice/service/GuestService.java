@@ -149,7 +149,8 @@ public class GuestService {
                 guest.get().getCreditCards().stream().filter(stay -> Objects.equals(stay.getCardNumber(), cardId)).findFirst();
 
         if(!cardDB.isPresent()) {
-            throw new GuestCreditCardNotFoundException(String.format("Stay information not found with guest id: %s and " +
+            throw new GuestCreditCardNotFoundException(String.format("Stay information is not found with guest id: %s" +
+                    " and " +
                     "credit card id: ", guestId, cardId));
         }
         creditCardRepository.deleteByCardNumber(cardId);

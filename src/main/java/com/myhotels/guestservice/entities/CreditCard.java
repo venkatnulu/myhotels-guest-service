@@ -25,6 +25,7 @@ public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "card_number", nullable = false)
+    private Integer cardId;
     private Long cardNumber;
     @Enumerated(EnumType.STRING)
     private CardType cardType;
