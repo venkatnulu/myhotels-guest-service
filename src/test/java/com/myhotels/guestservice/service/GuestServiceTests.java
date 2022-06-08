@@ -34,7 +34,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @Import({GuestService.class})
 @ExtendWith({SpringExtension.class})
-public class GuestServiceTests extends Exception {
+public class GuestServiceTests {
 
     @Autowired
     private GuestService guestService;
