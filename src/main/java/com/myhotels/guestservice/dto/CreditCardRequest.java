@@ -20,6 +20,7 @@ public class CreditCardRequest {
     @Min(100)
     @Max(999)
     private Integer cvv;
+    private Long cardNumber;
     private CardType cardType;
     @NotNull(message = "Expiry Month should not be empty")
     @Min(value = 1, message = "Expiry Month should be between 1 and 12. Should be future month")

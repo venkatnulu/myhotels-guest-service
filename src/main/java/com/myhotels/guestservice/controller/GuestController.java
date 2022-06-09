@@ -203,7 +203,7 @@ public class GuestController {
     })
     @DeleteMapping(value = "${myhotel-microservices.guest-service.endpoints.delete-guest-creditcard}")
     public ResponseEntity<String> deleteGuestCreditCardInformation(@PathVariable("guest_id") Integer guestId,
-                                                                   @PathVariable("card_id") Long cardId)
+                                                                   @PathVariable("card_id") Integer cardId)
             throws GuestNotFoundException, GuestCreditCardNotFoundException {
         log.info(String.format("Inside delete guest stay information controller with guest id: %s and card id: %s",
                 guestId, cardId));

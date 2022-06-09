@@ -154,19 +154,19 @@ public class GuestServiceTests {
     @Test
     void testDeleteCreditCardInfo() throws GuestCreditCardNotFoundException, GuestNotFoundException {
         when(guestRepository.findByGuestId(anyInt())).thenReturn(Optional.of(buildGuest()));
-        assertNotNull(guestService.deleteGuestCreditCardInfo(500, 500050005000L));
+        assertNotNull(guestService.deleteGuestCreditCardInfo(500, 1));
     }
 
     @Test
     void testDeleteCreditCardInfoWhenNoGuestFound()  {
         when(guestRepository.findByGuestId(anyInt())).thenReturn(Optional.empty());
-        assertThrows(GuestNotFoundException.class, () -> guestService.deleteGuestCreditCardInfo(500, 500050005000L));
+        assertThrows(GuestNotFoundException.class, () -> guestService.deleteGuestCreditCardInfo(500, 1));
     }
 
     @Test
     void testDeleteCreditCardInfoWhenNoCreditCardInfoFound()  {
         when(guestRepository.findByGuestId(anyInt())).thenReturn(Optional.of(buildGuestWithEmptyCreditCardInfo()));
-        assertThrows(GuestCreditCardNotFoundException.class, () -> guestService.deleteGuestCreditCardInfo(500, 500050005000L));
+        assertThrows(GuestCreditCardNotFoundException.class, () -> guestService.deleteGuestCreditCardInfo(500, 1));
     }
 
     @Test
@@ -237,6 +237,7 @@ public class GuestServiceTests {
     private CreditCard buildCreditCard() {
         return CreditCard.builder().
                 cvv(343).
+                cardNumber(500050005000L).
                 cardType(CardType.VISA_CARD).
                 expiryMonth(12).
                 expiryYear(2033).

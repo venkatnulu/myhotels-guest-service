@@ -108,6 +108,8 @@ public class GuestService {
         }
         CreditCard creditcard = CreditCard.builder().
                 cvv(creditcardRequest.getCvv()).
+                cardNumber(creditcardRequest.getCardNumber()).
+                cardType(creditcardRequest.getCardType()).
                 expiryMonth(creditcardRequest.getExpiryMonth()).
                 expiryYear(creditcardRequest.getExpiryYear()).
                 build();
@@ -131,11 +133,13 @@ public class GuestService {
                     "stay id: ", guestId, stayId ));
         }
         stayInfoRepository.deleteByStayId(stayId);
+        stayInfoRepository.deleteRoomNumbers(stayId);
         return ResponseEntity.ok(String.format("Stay information with guest id: %s and stay id: %s is deleted " +
                 "successfully", guestId, stayId));
     }
 
-    public ResponseEntity<String> deleteGuestCreditCardInfo(Integer guestId, Long cardId) throws GuestNotFoundException,
+    @Transactional
+    public ResponseEntity<String> deleteGuestCreditCardInfo(Integer guestId, Integer cardId) throws GuestNotFoundException,
             GuestCreditCardNotFoundException {
         log.info(String.format("Inside delete credit card information service with guest id: %s and card id: %s",
                 guestId, cardId));
@@ -144,16 +148,16 @@ public class GuestService {
             throw new GuestNotFoundException(String.format("Guest with guest id: %s is not found", guestId));
         }
         Optional<CreditCard> cardDB =
-                guest.get().getCreditCards().stream().filter(stay -> Objects.equals(stay.getCardNumber(), cardId)).findFirst();
+                guest.get().getCreditCards().stream().filter(stay -> Objects.equals(stay.getCardId(), cardId)).findFirst();
 
         if(!cardDB.isPresent()) {
             throw new GuestCreditCardNotFoundException(String.format("Stay information is not found with guest id: %s" +
                     " and " +
                     "credit card id: ", guestId, cardId));
         }
-        creditCardRepository.deleteByCardNumber(cardId);
-        return ResponseEntity.ok(String.format("Stay information with guest id: %s and credit card id: %s is deleted " +
-                "successfully", guestId, cardId));
+        creditCardRepository.deleteByCardId(cardId);
+        return ResponseEntity.ok(String.format("Credit card information with guest id: %s and credit card id: %s is " +
+                "deleted  successfully", guestId, cardId));
     }
 
     public Guest saveGuestProfile(GuestRequest guestRequest) {
@@ -170,6 +174,8 @@ public class GuestService {
         for(CreditCardRequest card : guestRequest.getCreditCards()) {
             CreditCard c = CreditCard.builder().
                     cvv(card.getCvv()).
+                    cardNumber(card.getCardNumber()).
+                    cardType(card.getCardType()).
                     expiryMonth(card.getExpiryMonth()).
                     expiryYear(card.getExpiryYear()).
                     build();
@@ -178,6 +184,7 @@ public class GuestService {
         Guest guest = Guest.builder().
                 guestName(guestRequest.getGuestName()).
                 guestEmail(guestRequest.getGuestEmail()).
+                guestPassword(guestRequest.getGuestPassword()).
                 guestAddress(guestRequest.getGuestAddress()).
                 guestPhoneNumber(guestRequest.getGuestPhoneNumber()).
                 stayHistory(stayInfo).
