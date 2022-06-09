@@ -93,7 +93,6 @@ public class GuestService {
         StayInfo stayInfo = StayInfo.builder().
                 hotelId(stayInfoRequest.getHotelId()).
                 roomNumbers(stayInfoRequest.getRoomNumbers()).
-                guest(Guest.builder().guestId(guest.get().getGuestId()).build()).
                 build();
         return stayInfoRepository.save(stayInfo);
     }
@@ -111,7 +110,6 @@ public class GuestService {
                 cvv(creditcardRequest.getCvv()).
                 expiryMonth(creditcardRequest.getExpiryMonth()).
                 expiryYear(creditcardRequest.getExpiryYear()).
-                guest(Guest.builder().guestId(guest.get().getGuestId()).build()).
                 build();
 
         return creditCardRepository.save(creditcard);
