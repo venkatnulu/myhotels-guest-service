@@ -14,4 +14,8 @@ public interface StayInfoRepository extends JpaRepository<StayInfo, Integer> {
     @Query(value = "DELETE FROM room_numbers s WHERE s.stay_id=:stayId", nativeQuery = true)
     @Modifying
     void deleteRoomNumbers(Integer stayId);
+
+    @Query(value = "UPDATE stay_info SET guest_id=:guestId WHERE stay_id=:stayId", nativeQuery = true)
+    @Modifying
+    void updateGuestId(@Param("guestId") Integer guestId, @Param("stayId") Integer stayId);
 }

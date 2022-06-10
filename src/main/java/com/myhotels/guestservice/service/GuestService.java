@@ -92,9 +92,12 @@ public class GuestService {
         }
         StayInfo stayInfo = StayInfo.builder().
                 hotelId(stayInfoRequest.getHotelId()).
+
                 roomNumbers(stayInfoRequest.getRoomNumbers()).
                 build();
-        return stayInfoRepository.save(stayInfo);
+        StayInfo stayInfoSaved = stayInfoRepository.save(stayInfo);
+        stayInfoRepository.updateGuestId(guestId, stayInfoSaved.getStayId());
+        return stayInfoSaved;
     }
 
 
@@ -114,7 +117,9 @@ public class GuestService {
                 expiryYear(creditcardRequest.getExpiryYear()).
                 build();
 
-        return creditCardRepository.save(creditcard);
+        CreditCard savedCard = creditCardRepository.save(creditcard);
+        creditCardRepository.updateGuestId(guestId, savedCard.getCardId());
+        return savedCard;
     }
 
     @Transactional

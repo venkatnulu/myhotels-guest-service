@@ -11,4 +11,8 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
     @Query(value = "DELETE FROM credit_card c WHERE c.card_id=:cardId", nativeQuery = true)
     @Modifying
     void deleteByCardId(@Param("cardId") Integer cardId);
+
+    @Query(value = "UPDATE credit_card SET guest_id=:guestId WHERE card_id=:cardId", nativeQuery = true)
+    @Modifying
+    void updateGuestId(@Param("guestId") Integer guestId, @Param("cardId") Integer cardId);
 }
